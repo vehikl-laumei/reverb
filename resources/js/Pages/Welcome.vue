@@ -2,7 +2,7 @@
 import { Head, Link } from '@inertiajs/vue3';
 import ChatThing from "@/Pages/ChatThing.vue";
 
-defineProps({
+const props = defineProps({
     canLogin: {
         type: Boolean,
     },
@@ -29,6 +29,12 @@ function handleImageError() {
     document.getElementById('docs-card-content')?.classList.add('!flex-row');
     document.getElementById('background')?.classList.add('!hidden');
 }
+
+Echo.channel('shart-chat')
+    .listen('MessagePostedEvent', (e) => {
+        console.log(e.message);
+        props.messages.value.push(e.message);
+    });
 </script>
 
 <template>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CreateMessageController;
 use App\Models\Message;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -8,11 +9,11 @@ use Inertia\Inertia;
 Route::get('/', function () {
 
     return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
+        'canLogin'       => Route::has('login'),
+        'canRegister'    => Route::has('register'),
         'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-        'messages' => Message::all(),
+        'phpVersion'     => PHP_VERSION,
+        'messages'       => Message::all(),
     ]);
 });
 
@@ -25,3 +26,5 @@ Route::middleware([
         return Inertia::render('Dashboard');
     })->name('dashboard');
 });
+
+Route::post('/messages', CreateMessageController::class);

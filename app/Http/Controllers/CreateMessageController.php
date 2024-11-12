@@ -2,20 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\MessagePostedEvent;
 use App\Models\Message;
 use Illuminate\Http\Request;
 
 class CreateMessageController extends Controller
 {
-    /**
-     * Handle the incoming request.
-     */
     public function __invoke(Request $request)
     {
-        Message::create([
-            'text' => $request->input('text')
+        $message = Message::query()->create([
+            'text' => $request->input('message')
         ]);
 
-        // dispatch an event
+        MessagePostedEvent::dispatch($message);
     }
 }
